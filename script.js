@@ -27,20 +27,21 @@ function draw() {
     if (clicked) {
         fill(circles[num].c.r, circles[num].c.g, circles[num].c.b, circles[num].opacity);
         circle(clickedCircle.x, clickedCircle.y, clickedCircle.size);
-        if (clickedCircle.size < windowWidth*2) {
+        if (clickedCircle.size < windowWidth*3) {
             clickedCircle.size += 30;
         } else {
+            //mixColors();
+            backgroundColor = {r: clickedCircle.c.r, g: clickedCircle.c.g, b: clickedCircle.c.b};
             console.log(circles[num].opacity);
             if (circles[num].opacity > 0) {
-                backgroundColor = {r: clickedCircle.c.r, g: clickedCircle.c.g, b: clickedCircle.c.b};
                 circles[num].opacity -= 2;
             } else {
+                circles[num].opacity = 0;
                 circles.splice(i, 1);
                 var nCircle = new Circle(random(windowWidth), random(windowHeight), {r: random(255), g: random(255), b: random(255)}, random(80)+20, random(1, 3));
                 circles[i] = nCircle;    
                 clickedCircle.size = 0;
                 clicked = false;
-                background(backgroundColor.r, backgroundColor.g, backgroundColor.b);    
             }
         }
     }
@@ -59,6 +60,19 @@ function mousePressed() {
         }
     }
 }
+
+// mix the colors of all the circles
+function mixColors() {
+    var r = 0;
+    var g = 0;
+    var b = 0;
+    for (var i = 0; i < circles.length; i++) {
+        r += circles[i].c.r;
+        g += circles[i].c.g;
+        b += circles[i].c.b;
+    }
+}
+
 
 class Circle {
     constructor(x, y, c, size, speed) {
