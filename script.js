@@ -32,6 +32,7 @@ function draw() {
         } else {
             console.log(circles[num].opacity);
             if (circles[num].opacity > 0) {
+                backgroundColor = {r: clickedCircle.c.r, g: clickedCircle.c.g, b: clickedCircle.c.b};
                 circles[num].opacity -= 2;
             } else {
                 circles.splice(i, 1);
@@ -39,7 +40,6 @@ function draw() {
                 circles[i] = nCircle;    
                 clickedCircle.size = 0;
                 clicked = false;
-                backgroundColor = {r: clickedCircle.c.r, g: clickedCircle.c.g, b: clickedCircle.c.b};
                 background(backgroundColor.r, backgroundColor.g, backgroundColor.b);    
             }
         }
