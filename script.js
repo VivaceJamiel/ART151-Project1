@@ -14,7 +14,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     // You can make the parallax effect by classifying the circles by their size and assign the speed to each size
     // The bigger the circle, the faster it moves
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 100; i++) {
         var grayfactor = 0;
         var speed;
         var size = random(80)+20;
