@@ -79,7 +79,7 @@ function draw() {
             backgroundColor = {r: clickedCircle.c.r, g: clickedCircle.c.g, b: clickedCircle.c.b};
             if (!ranFound) {
                 ran = Math.floor(random(1, 5));
-                ran2 = Math.floor(random(1, 5));
+                ran2 = Math.floor(random(255));
                 ranFound = true;
             }
             if (circles[num].opacity > 0) {
@@ -87,7 +87,6 @@ function draw() {
             } else {
                 circles[num].opacity = 0;
                 ranFound = false;
-                // circles.splice(i, 1);
                 var nCircle = new Circle(random(windowWidth), random(windowHeight), {r: random(255), g: random(255), b: random(255)}, random(80)+20, random(1, 3));
                 circles[num] = nCircle;    
                 clickedCircle.size = 0;
@@ -95,28 +94,31 @@ function draw() {
             }
         }
     }
-
-    noiseMove();
+    noiseMove(ran2%2);
 }
 
-function noiseMove() {
-    if (ran != 3 && ran != 4) {
-        var xoff = 0;
-        for (var i = 0; i < circles.length; i++) {
-            var y = map(noise(xoff, yoff), 0, 1, 0, windowHeight);
-            circles[i].y = y;
-            xoff += 0.01;
-        }
-        yoff += 0.01;
-    } else {
-        var xoff = 0;
-        for (var i = 0; i < circles.length; i++) {
-            var y = map(noise(xoff, yoff), 0, 1, 0, windowHeight);
-            circles[i].x = y;
-            xoff += 0.01;
-        }
-        yoff += 0.01;
+function noiseMove(val) {
+    if (val == 1) {
 
+    } else {
+        if (ran != 3 && ran != 4) {
+            var xoff = 0;
+            for (var i = 0; i < circles.length; i++) {
+                var y = map(noise(xoff, yoff), 0, 1, 0, windowHeight);
+                circles[i].y = y;
+                xoff += 0.01;
+            }
+            yoff += 0.01;
+        } else {
+            var xoff = 0;
+            for (var i = 0; i < circles.length; i++) {
+                var y = map(noise(xoff, yoff), 0, 1, 0, windowHeight);
+                circles[i].x = y;
+                xoff += 0.01;
+            }
+            yoff += 0.01;
+
+        }
     }
 }
 
