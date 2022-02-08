@@ -13,15 +13,33 @@ var introed = false;
 var introed2 = false;
 var intro_opacity = 255;
 var intro_circle_size = 0;
+var wait = false;
+var wait_size = 0;
 
 // Have an intro to the piece
-function intro1() {
+function introWait() {
     background(0);
-    fill(255);
-    circle(windowWidth/2, windowHeight/2, intro_circle_size);
-    if(intro_circle_size < windowWidth/4){
-        intro_circle_size += (1+0.1*intro_circle_size);
-    }    
+    fill(0);
+    circle(windowWidth/2, windowHeight/2, wait_size);
+    console.log(wait_size);
+    if (wait_size < 75) {
+        wait_size += 1;
+    } else {
+        wait = true;
+    }
+}
+
+function intro1() {
+    if (!wait) {
+        introWait();
+    } else {
+        background(0);
+        fill(255);
+        circle(windowWidth/2, windowHeight/2, intro_circle_size);
+        if(intro_circle_size < windowWidth/4){
+            intro_circle_size += (0.05+0.05*intro_circle_size);
+        }    
+    }
 }
 
 function intro2() {
@@ -44,6 +62,7 @@ function intro2() {
 }
 
 function setup() {
+    alert("Welcome to the piece\nPlease click the white circle after it stops growing\nThen click any circle afterwards");
     createCanvas(windowWidth, windowHeight);
     // You can make the parallax effect by classifying the circles by their size and assign the speed to each size
     // The bigger the circle, the faster it moves
