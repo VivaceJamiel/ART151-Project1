@@ -9,6 +9,39 @@ var yoff = 0.0;
 var ran = 1;
 var ran2 = 1;
 var ranFound = false;
+var introed = false;
+var introed2 = false;
+var intro_opacity = 255;
+var intro_circle_size = 0;
+
+// Have an intro to the piece
+function intro1() {
+    background(0);
+    fill(255);
+    circle(windowWidth/2, windowHeight/2, intro_circle_size);
+    if(intro_circle_size < windowWidth/4){
+        intro_circle_size += (1+0.1*intro_circle_size);
+    }    
+}
+
+function intro2() {
+    if (intro_circle_size < windowWidth*2) {
+        fill(0, 255);
+        circle(windowWidth/2, windowHeight/2, windowWidth*3);
+    }
+    fill(255, fade);
+    circle(windowWidth/2, windowHeight/2, intro_circle_size);
+
+
+    if (intro_circle_size < windowWidth*1000) {
+        intro_circle_size += 0.2*intro_circle_size;
+    } else {
+        fade -= 1+0.01*fade;
+        if (fade <= 0) {
+            introed2 = true;
+        }
+    }
+}
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -66,35 +99,42 @@ function movementType(val) {
 
 
 function draw() {
-    background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+    if(!introed){
+        intro1();
+    } else {
+        background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
-    movementType(ran);
+        movementType(ran);
 
-    if (clicked) {
-        fill(circles[num].c.r, circles[num].c.g, circles[num].c.b, circles[num].opacity);
-        circle(clickedCircle.x, clickedCircle.y, clickedCircle.size);
-        if (clickedCircle.size < windowWidth*2.5) {
-            clickedCircle.size += 30;
-        } else {
-            backgroundColor = {r: clickedCircle.c.r, g: clickedCircle.c.g, b: clickedCircle.c.b};
-            if (!ranFound) {
-                ran = Math.floor(random(1, 5));
-                ran2 = Math.floor(random(255));
-                ranFound = true;
-            }
-            if (circles[num].opacity > 0) {
-                circles[num].opacity -= 4;
+        if (clicked) {
+            fill(circles[num].c.r, circles[num].c.g, circles[num].c.b, circles[num].opacity);
+            circle(clickedCircle.x, clickedCircle.y, clickedCircle.size);
+            if (clickedCircle.size < windowWidth*2.5) {
+                clickedCircle.size += 30;
             } else {
-                circles[num].opacity = 0;
-                ranFound = false;
-                var nCircle = new Circle(random(windowWidth), random(windowHeight), {r: random(255), g: random(255), b: random(255)}, random(80)+20, random(1, 3));
-                circles[num] = nCircle;    
-                clickedCircle.size = 0;
-                clicked = false;
+                backgroundColor = {r: clickedCircle.c.r, g: clickedCircle.c.g, b: clickedCircle.c.b};
+                if (!ranFound) {
+                    ran = Math.floor(random(1, 5));
+                    ran2 = Math.floor(random(255));
+                    ranFound = true;
+                }
+                if (circles[num].opacity > 0) {
+                    circles[num].opacity -= 4;
+                } else {
+                    circles[num].opacity = 0;
+                    ranFound = false;
+                    var nCircle = new Circle(random(windowWidth), random(windowHeight), {r: random(255), g: random(255), b: random(255)}, random(80)+20, random(1, 3));
+                    circles[num] = nCircle;    
+                    clickedCircle.size = 0;
+                    clicked = false;
+                }
             }
         }
+        noiseMove(ran2%2);  
+        if (!introed2) {
+            intro2();
+        }  
     }
-    noiseMove(ran2%2);
 }
 
 function noiseMove(val) {
@@ -123,16 +163,20 @@ function noiseMove(val) {
 }
 
 function mousePressed() {
-    var mX = mouseX;
-    var mY = mouseY;
-
-    for (var i = 0; i < circles.length; i++) {
-        var d = dist(mX, mY, circles[i].x, circles[i].y);
-        if (d < circles[i].size / 2) {
-            num = i;
-            clickedCircle = circles[i];
-            clicked = true;
+    if (introed) {
+        var mX = mouseX;
+        var mY = mouseY;
+    
+        for (var i = 0; i < circles.length; i++) {
+            var d = dist(mX, mY, circles[i].x, circles[i].y);
+            if (d < circles[i].size / 2) {
+                num = i;
+                clickedCircle = circles[i];
+                clicked = true;
+            }
         }
+    } else {
+        introed = true;
     }
 }
 class Circle {
