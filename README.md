@@ -3,14 +3,13 @@
 ## How to view the piece
 To get started with the piece, once the instructions are shown, click okay to start it.
 
-![Initial View](initial_view.png)
-
 ## Piece Interaction
 To interact with the piece, click on the white circle after it finished moving into view.
+
+![Initial View](initial_view.png)
+
 After that, you can click on various circles to change the piece.
 
 ![Interaction View](main.png)
 
-### Instructions
-
-#### hello
+# Purpose
